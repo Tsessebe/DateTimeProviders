@@ -14,7 +14,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DateTimeProviders.Dimensions\DateTimeProviders.Dimensions.csproj" />
+        <ProjectReference Include="..\DateTimeProviders.Dimensions\DateTimeProviders.Dimensions.csproj" />
     </ItemGroup>
-
 </Project>
