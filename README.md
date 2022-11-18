@@ -2,6 +2,8 @@
 
 The package contains providers for testable dates. As well as additional extensions.
 
+Inspired by this video from [Nick Chapsas](https://youtu.be/5DrGdyxnO5A) 
+
 Target platform: .NET Core 6
 
 ## Interface
