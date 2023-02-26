@@ -21,6 +21,7 @@ Target platform: .NET Core 6
 * IDateDimensionProvider
 ```csharp
     IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate);
+    IEnumerable<MonthDimension> GetMonthDimensionFinYear(DateTime startDate);
     IEnumerable<DateDimension> GetDateDimensions(DateTime startDate);
     int FinStartMonth { get; }
 ```
@@ -35,5 +36,8 @@ Install the package https://www.nuget.org/packages/Tsessebe.DateTimeProviders/ u
 
 ## Versions
 
+* 26 Feb 2023 - v1.0.0 
+    * Added Method to Calculate Financial Year based on date.
+    * First Release
 * 18 Nov 2022 - v1.0.0-preview Initial Release
 

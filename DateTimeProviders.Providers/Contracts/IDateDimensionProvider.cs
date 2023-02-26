@@ -15,6 +15,13 @@ public interface IDateDimensionProvider
     IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate);
 
     /// <summary>
+    /// Generates Month Dimensions for the Financial Year.
+    /// </summary>
+    /// <param name="startDate">the start date</param>
+    /// <returns>MonthDimensions</returns>
+    IEnumerable<MonthDimension> GetMonthDimensionFinYear(DateTime startDate);
+
+    /// <summary>
     /// Generates Date Dimensions.
     /// </summary>
     /// <param name="startDate">the start date</param>

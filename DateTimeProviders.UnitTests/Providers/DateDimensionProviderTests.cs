@@ -38,6 +38,16 @@ public class DateDimensionProviderTests
     }
     
     [Fact]
+    public void Test_GetMonthDimensionFinYear()
+    {
+        var sut = DateDimensionProvider.FinStartJun;
+        var list = sut.GetMonthDimensionFinYear(new DateTime(2023, 02, 28)).ToList();
+        list.Should().NotBeNull();
+        list.Should().NotBeEmpty();
+        list[0].YrMthNo.Should().Be(202206);
+    }
+
+    [Fact]
     public void Test_GetDateDimensions()
     {
         var sut = DateDimensionProvider.FinStartMay;

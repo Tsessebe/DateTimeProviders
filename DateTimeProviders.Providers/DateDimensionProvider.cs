@@ -86,6 +86,7 @@ public class DateDimensionProvider : IDateDimensionProvider
     
     public int FinStartMonth { get; }
 
+    /// <inheritdoc/>
     public IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate)
     {
         var nextValue = startDate.AddMonths(-1);
@@ -104,6 +105,7 @@ public class DateDimensionProvider : IDateDimensionProvider
         }
     }
     
+    /// <inheritdoc/>
     public IEnumerable<DateDimension> GetDateDimensions(DateTime startDate)
     {
         var nextValue = startDate.AddDays(-1);
@@ -119,6 +121,22 @@ public class DateDimensionProvider : IDateDimensionProvider
             nextValue = nextValue.AddDays(1);
 
             yield return nextValue.GetDateDimension(this.FinStartMonth);
+        }
+    }
+
+    /// <inheritdoc/>
+    public IEnumerable<MonthDimension> GetMonthDimensionFinYear(DateTime startDate)
+    {
+        var dateDim = startDate.GetMonthDimension(this.FinStartMonth);
+        var adjustMonths = (dateDim.FinMthNo * -1) + 1;
+        var finStartDate = startDate.AddMonths(adjustMonths);
+
+        var nextValue = finStartDate.AddMonths(-1);
+        for (int i = 0; i < 12; i++)
+        {
+            nextValue = nextValue.AddMonths(1);
+
+            yield return nextValue.GetMonthDimension(this.FinStartMonth);
         }
     }
 }
