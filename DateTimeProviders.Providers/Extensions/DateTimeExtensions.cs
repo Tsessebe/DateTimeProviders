@@ -3,32 +3,42 @@
 namespace DateTimeProviders.Providers.Extensions;
 
 /// <summary>
-/// DateTime Extensions class
+/// DateTime Extensions class.
 /// </summary>
 public static class DateTimeExtensions
 {
+    /// <summary>
+    /// Calculates the start of the month for the given date.
+    /// </summary>
+    /// <param name="date">the DateTime as DateTimeOffset.</param>
+    /// <returns>a DateTime</returns>
     public static DateTime StartOfTheMonth(this DateTimeOffset date)
     {
         return date.Date.StartOfTheMonth();
     }
-    
+
     /// <summary>
-    /// Calculates the start of the month for the given date
+    /// Calculates the start of the month for the given date.
     /// </summary>
-    /// <param name="date">the DateTime</param>
+    /// <param name="date">the DateTime.</param>
     /// <returns>a DateTime</returns>
     public static DateTime StartOfTheMonth(this DateTime date)
     {
         return new DateTime(date.Year, date.Month, 1);
     }
-    
+
+    /// <summary>
+    /// Calculates the end of the month for the given date.
+    /// </summary>
+    /// <param name="date">the DateTime as DateTimeOffset.</param>
+    /// <returns>a DateTime</returns>
     public static DateTime EndOfTheMonth(this DateTimeOffset date)
     {
         return date.Date.EndOfTheMonth();
     }
-    
+
     /// <summary>
-    /// Calculates the end of the month for the given date
+    /// Calculates the end of the month for the given date.
     /// </summary>
     /// <param name="date">the DateTime</param>
     /// <returns>a DateTime</returns>
@@ -39,13 +49,18 @@ public static class DateTimeExtensions
             .AddDays(-1);
     }
 
+    /// <summary>
+    /// Calculates the start of the next month for the given date.
+    /// </summary>
+    /// <param name="date">the DateTime as DateTimeOffset.</param>
+    /// <returns>a DateTime</returns>
     public static DateTime StartOfNextMonth(this DateTimeOffset date)
     {
         return date.Date.StartOfNextMonth();
     }
-    
+
     /// <summary>
-    /// Calculates the start of the next month for the given date
+    /// Calculates the start of the next month for the given date.
     /// </summary>
     /// <param name="date">the DateTime</param>
     /// <returns>a DateTime</returns>
@@ -55,7 +70,7 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Calculates the start of the date for the given date
+    /// Calculates the start of the date for the given date.
     /// </summary>
     /// <param name="date">the DateTime</param>
     /// <returns>a DateTime</returns>
@@ -65,7 +80,7 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Calculates the end of the day for the given date
+    /// Calculates the end of the weekday for the given date.
     /// </summary>
     /// <param name="date">the DateTime</param>
     /// <returns>a DateTime</returns>
@@ -78,15 +93,99 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Calculates the next day of the week for the given date
+    /// Calculates the previous weekday of the week for the given date.
     /// </summary>
     /// <param name="date">the DateTime</param>
-    /// <param name="day">the Next Weekday</param>
+    /// <param name="weekday">the Previous Weekday</param>
     /// <returns>a DateTime</returns>
-    public static DateTime NextDayOfWeek(this DateTime date, DayOfWeek day)
+    public static DateTime PreviousDayOfWeek(this DateTime date, DayOfWeek weekday)
     {
-        var d = new GregorianCalendar().AddDays(date, -(int)date.DayOfWeek + (int)day).StartOfDay();
-        return (d.Day < date.Day) ? d.AddDays(7) : d;
+        var d = new GregorianCalendar().AddDays(date, -(int)date.DayOfWeek + (int)weekday).StartOfDay();
+        return (d.Day >= date.Day) ? d.AddDays(-7) : d;
+    }
+
+    /// <summary>
+    /// Calculates the next weekday of the week for the given date.
+    /// </summary>
+    /// <param name="date">the DateTime</param>
+    /// <param name="weekday">the Next Weekday</param>
+    /// <returns>a DateTime</returns>
+    public static DateTime NextDayOfWeek(this DateTime date, DayOfWeek weekday)
+    {
+        var d = new GregorianCalendar().AddDays(date, -(int)date.DayOfWeek + (int)weekday).StartOfDay();
+        return (d.Day <= date.Day) ? d.AddDays(7) : d;
+    }
+
+    /// <summary>
+    /// Calculates the first weekday for the year month.
+    /// </summary>
+    /// <param name="date">the target year month as datetime.</param>
+    /// <param name="weekday">the weekday of the week.</param>
+    /// <returns>the datetime for the weekday.</returns>
+    public static DateTime GetFirstWeekday(this DateTime date, DayOfWeek weekday)
+    {
+        var dayCount = DateTime.DaysInMonth(date.Year, date.Month);
+        var result = Enumerable.Range(1, dayCount)
+                                    .Select(day => new DateTime(date.Year, date.Month, day))
+                                    .Where(_ => _.DayOfWeek == weekday)
+                                    .First();
+        return result;
+    }
+
+    /// <summary>
+    /// Calculates the last weekday for the year month.
+    /// </summary>
+    /// <param name="date">the target year month as datetime.</param>
+    /// <param name="weekday">the weekday of the week.</param>
+    /// <returns>the datetime for the weekday.</returns>
+    public static DateTime GetLastWeekday(this DateTime date, DayOfWeek weekday)
+    {
+        var dayCount = DateTime.DaysInMonth(date.Year, date.Month);
+        var result = Enumerable.Range(1, dayCount)
+                                    .Select(day => new DateTime(date.Year, date.Month, day))
+                                    .Where(_ => _.DayOfWeek == weekday)
+                                    .Last();
+        return result;
+    }
+
+    /// <summary>
+    /// Calculates the Nth weekday for the year month.
+    /// </summary>
+    /// <param name="date">the target year month as datetime.</param>
+    /// <param name="nth">the nth</param>
+    /// <param name="weekday">the weekday of the week.</param>
+    /// <returns>the datetime for the weekday.</returns>
+    public static DateTime GetNthWeekday(this DateTime date, int nth, DayOfWeek weekday)
+    {
+        var dayCount = DateTime.DaysInMonth(date.Year, date.Month);
+        var weekdayCount = date.GetWeekdayCount(weekday);
+        if (weekdayCount < nth)
+        {
+            throw new ArgumentOutOfRangeException($"Only {weekdayCount} {weekday:G}'s in {date:Y}", nameof(nth));
+        }
+        var result = Enumerable.Range(1, dayCount)
+                                    .Select(day => new DateTime(date.Year, date.Month, day))
+                                    .Where(_ => _.DayOfWeek == weekday)
+                                    .Skip(nth - 1)
+                                    .Take(1)
+                                    .Single();
+
+        return result;
+    }
+
+    /// <summary>
+    /// Calculates the number of a weekday for the year month.
+    /// </summary>
+    /// <param name="date">the target year month as datetime.</param>
+    /// <param name="weekday">the weekday of the week.</param>
+    /// <returns>the no of weekday in the month.</returns>
+    public static int GetWeekdayCount(this DateTime date, DayOfWeek weekday)
+    {
+        var dayCount = DateTime.DaysInMonth(date.Year, date.Month);
+        var result = Enumerable.Range(1, dayCount)
+                                    .Select(day => new DateTime(date.Year, date.Month, day))
+                                    .Where(_ => _.DayOfWeek == weekday);
+        return result.Count();
     }
 
     /// <summary>
@@ -98,26 +197,29 @@ public static class DateTimeExtensions
     {
         return date.Month == 2 && date.Day == 29;
     }
-    
+
     /// <summary>
     /// Checks if the date is a WorkDay
     /// </summary>
     /// <param name="date">the DateTime</param>
     /// <param name="workdays">the Working days of the week</param>
+    /// <param name="holidays">the Holidays</param>
     /// <returns>a Boolean</returns>
-    public static bool IsWorkDay(this DateTime date, Dictionary<DayOfWeek, bool>? workdays = null)
+    public static bool IsWorkDay(this DateTime date, bool workdayDefault = true, Dictionary<DayOfWeek, bool>? workdays = null, IEnumerable<DateTime>? holidays = null)
     {
-        if (workdays == null)
+        var result = true;
+        
+        if (!workdays?.TryGetValue(date.DayOfWeek, out result) ?? true)
         {
-            return date.DayOfWeek != DayOfWeek.Sunday && date.DayOfWeek != DayOfWeek.Saturday;
+            result = workdayDefault;
         }
 
-        if (workdays.TryGetValue(date.DayOfWeek, out var result))
+        if (result && holidays != null)
         {
-            return result;
+            return !holidays.Any(_ => _ == date);
         }
 
-        return date.DayOfWeek != DayOfWeek.Sunday && date.DayOfWeek != DayOfWeek.Saturday;
+        return result;
     }
 
     /// <summary>

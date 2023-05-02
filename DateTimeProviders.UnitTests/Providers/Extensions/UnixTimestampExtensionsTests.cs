@@ -19,7 +19,7 @@ public class UnixTimestampExtensionsTests
         var sut = dateTimeProvider.Now;
         
         // Act
-        var result = sut.Date.ToUnixTimestamp();
+        var result = sut.DateTime.ToUnixTimestamp();
 
         // Assert
         result.Should().Be(231544800);
@@ -35,7 +35,7 @@ public class UnixTimestampExtensionsTests
         var result = sut.UnixTimeStampToDateTime();
 
         // Assert
-        result.Should().Be(dateTimeProvider.Now.Date);
+        result.Should().Be(dateTimeProvider.Now.DateTime);
     }
     
 }

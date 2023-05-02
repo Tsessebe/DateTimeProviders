@@ -26,6 +26,38 @@ Target platform: .NET Core 6
     int FinStartMonth { get; }
 ```
 
+## Extensions
+
+* DateTimeExtensions
+```csharp
+    DateTime StartOfTheMonth(this DateTimeOffset date)
+    DateTime StartOfTheMonth(this DateTime date)
+    
+    DateTime EndOfTheMonth(this DateTimeOffset date)
+    DateTime EndOfTheMonth(this DateTime date)
+    
+    DateTime StartOfNextMonth(this DateTimeOffset date)
+    DateTime StartOfNextMonth(this DateTime date)
+
+    DateTime StartOfDay(this DateTime date)
+    DateTime EndOfDay(this DateTime date)
+
+    DateTime PreviousDayOfWeek(this DateTime date, DayOfWeek weekday)
+    DateTime NextDayOfWeek(this DateTime date, DayOfWeek weekday)
+    DateTime GetFirstWeekday(this DateTime date, DayOfWeek weekday)
+    DateTime GetLastWeekday(this DateTime date, DayOfWeek weekday)
+    DateTime GetNthWeekday(this DateTime date, int nth, DayOfWeek weekday)
+    int GetWeekdayCount(this DateTime date, DayOfWeek weekday)
+
+    bool IsLeapDay(this DateTime date)
+
+    bool IsWorkDay(this DateTime date, bool workdayDefault = true, Dictionary<DayOfWeek, bool>? workdays = null, IEnumerable<DateTime>? holidays = null)
+
+    DateTime EasterSunday(this DateTime value)
+    DateTime EasterSunday(this int year)
+```
+* 
+
 ## Setup guide
 Install the package https://www.nuget.org/packages/Tsessebe.DateTimeProviders/ using nuget
 
