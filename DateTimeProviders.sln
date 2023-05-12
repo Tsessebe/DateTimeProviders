@@ -1,15 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTimeProviders.Dimensions", "DateTimeProviders.Dimensions\DateTimeProviders.Dimensions.csproj", "{ED26D706-E51A-4596-81E3-8D87FD1E7C3C}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DateTimeProviders.Providers", "DateTimeProviders.Providers\DateTimeProviders.Providers.csproj", "{0A4246CD-D724-4648-A9F9-D4718E23FFFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTimeProviders.Providers", "DateTimeProviders.Providers\DateTimeProviders.Providers.csproj", "{0A4246CD-D724-4648-A9F9-D4718E23FFFF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTimeProviders.UnitTests", "DateTimeProviders.UnitTests\DateTimeProviders.UnitTests.csproj", "{FD5D13CF-67C4-4A3E-9FD8-A4FFEBF81696}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DateTimeProviders.UnitTests", "DateTimeProviders.UnitTests\DateTimeProviders.UnitTests.csproj", "{FD5D13CF-67C4-4A3E-9FD8-A4FFEBF81696}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{DE992D4B-A4B1-45EF-A2F5-B6083CFEAFBF}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -18,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ED26D706-E51A-4596-81E3-8D87FD1E7C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED26D706-E51A-4596-81E3-8D87FD1E7C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED26D706-E51A-4596-81E3-8D87FD1E7C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED26D706-E51A-4596-81E3-8D87FD1E7C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A4246CD-D724-4648-A9F9-D4718E23FFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0A4246CD-D724-4648-A9F9-D4718E23FFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A4246CD-D724-4648-A9F9-D4718E23FFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,5 +27,8 @@ Global
 		{FD5D13CF-67C4-4A3E-9FD8-A4FFEBF81696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD5D13CF-67C4-4A3E-9FD8-A4FFEBF81696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD5D13CF-67C4-4A3E-9FD8-A4FFEBF81696}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

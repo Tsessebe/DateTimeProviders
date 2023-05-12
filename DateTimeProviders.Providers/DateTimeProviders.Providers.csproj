@@ -12,8 +12,4 @@
         <PackageId>Tsessebe.DateTimeProviders</PackageId>
         <Authors>Tsessebe</Authors>
     </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\DateTimeProviders.Dimensions\DateTimeProviders.Dimensions.csproj" />
-    </ItemGroup>
 </Project>
