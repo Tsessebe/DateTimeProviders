@@ -2,13 +2,14 @@
 
 The package contains providers for testable dates. As well as additional extensions.
 
-Inspired by this video from [Nick Chapsas](https://youtu.be/5DrGdyxnO5A) 
+Inspired by this video from [Nick Chapsas](https://youtu.be/5DrGdyxnO5A)
 
 Target platform: .NET Core 6
 
 ## Interface
 
 * IDateTimeProvider
+
 ```csharp
     DateTimeOffset Now { get; }
     DateTimeOffset Today { get; }
@@ -19,6 +20,7 @@ Target platform: .NET Core 6
 ```
 
 * IDateDimensionProvider
+
 ```csharp
     IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate);
     IEnumerable<MonthDimension> GetMonthDimensionFinYear(DateTime startDate);
@@ -29,6 +31,7 @@ Target platform: .NET Core 6
 ## Extensions
 
 * DateTimeExtensions
+
 ```csharp
     DateTime StartOfTheMonth(this DateTimeOffset date)
     DateTime StartOfTheMonth(this DateTime date)
@@ -56,11 +59,12 @@ Target platform: .NET Core 6
     DateTime EasterSunday(this DateTime value)
     DateTime EasterSunday(this int year)
 ```
-* 
+
+*
 
 ## Setup guide
-Install the package https://www.nuget.org/packages/Tsessebe.DateTimeProviders/ using nuget
 
+Install the package https://www.nuget.org/packages/Tsessebe.DateTimeProviders/ using nuget
 
 ## Gotcha's
 
@@ -68,7 +72,7 @@ Install the package https://www.nuget.org/packages/Tsessebe.DateTimeProviders/ u
 
 ## Versions
 
-* 26 Feb 2023 - v1.0.0 
+* 26 Feb 2023 - v1.0.0
     * Added Method to Calculate Financial Year based on date.
     * First Release
 * 18 Nov 2022 - v1.0.0-preview Initial Release

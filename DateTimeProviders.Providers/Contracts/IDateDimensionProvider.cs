@@ -3,33 +3,33 @@
 namespace DateTimeProviders.Providers.Contracts;
 
 /// <summary>
-/// IDateDimensionProvider interface.
+///     IDateDimensionProvider interface.
 /// </summary>
 public interface IDateDimensionProvider
 {
     /// <summary>
-    /// Generates Month Dimensions.
+    ///     Get the value for the Financial Start Month.
     /// </summary>
-    /// <param name="startDate">the start date</param>
-    /// <returns>MonthDimensions</returns>
-    IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate);
+    int FinStartMonth { get; }
 
     /// <summary>
-    /// Generates Month Dimensions for the Financial Year.
+    ///     Generates Date Dimensions.
+    /// </summary>
+    /// <param name="startDate">the start date</param>
+    /// <returns>DateDimension</returns>
+    IEnumerable<DateDimension> GetDateDimensions(DateTime startDate);
+
+    /// <summary>
+    ///     Generates Month Dimensions for the Financial Year.
     /// </summary>
     /// <param name="startDate">the start date</param>
     /// <returns>MonthDimensions</returns>
     IEnumerable<MonthDimension> GetMonthDimensionFinYear(DateTime startDate);
 
     /// <summary>
-    /// Generates Date Dimensions.
+    ///     Generates Month Dimensions.
     /// </summary>
     /// <param name="startDate">the start date</param>
-    /// <returns>DateDimension</returns>
-    IEnumerable<DateDimension> GetDateDimensions(DateTime startDate);
-    
-    /// <summary>
-    /// Get the value for the Financial Start Month.
-    /// </summary>
-    int FinStartMonth { get; }
+    /// <returns>MonthDimensions</returns>
+    IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate);
 }

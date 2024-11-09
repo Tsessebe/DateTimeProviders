@@ -5,61 +5,6 @@ namespace DateTimeProviders.UnitTests.Providers;
 [ExcludeFromCodeCoverage]
 public class DateDimensionProviderTests
 {
-    [Theory]
-    [MemberData(nameof(FinStartData))]
-    public void Test_FinStart(IDateDimensionProvider sut, int expected)
-    {
-        var result = sut.FinStartMonth;
-
-        result.Should().Be(expected);
-    }
-
-    [Fact]
-    public void Test_Constructor()
-    {
-        var sut = new DateDimensionProvider(new DateTime(2019, 01, 01));
-        
-        var result = sut.FinStartMonth;
-        
-        result.Should().Be(1);
-    }
-
-    [Fact]
-    public void Test_GetMonthDimensions()
-    {
-        var sut = DateDimensionProvider.FinStartMay;
-
-        var list = sut.GetMonthDimensions(new DateTime(2019, 01, 01))
-            .Take(24)
-            .ToList();
-
-        list.Should().NotBeNull();
-        list.Should().NotBeEmpty();
-    }
-    
-    [Fact]
-    public void Test_GetMonthDimensionFinYear()
-    {
-        var sut = DateDimensionProvider.FinStartJun;
-        var list = sut.GetMonthDimensionFinYear(new DateTime(2023, 02, 28)).ToList();
-        list.Should().NotBeNull();
-        list.Should().NotBeEmpty();
-        list[0].YrMthNo.Should().Be(202206);
-    }
-
-    [Fact]
-    public void Test_GetDateDimensions()
-    {
-        var sut = DateDimensionProvider.FinStartMay;
-
-        var list = sut.GetDateDimensions(new DateTime(2019, 01, 01))
-            .Take(365*2)
-            .ToList();
-
-        list.Should().NotBeNull();
-        list.Should().NotBeEmpty();
-    }
-
     public static IEnumerable<object[]> FinStartData =>
         new List<object[]>
         {
@@ -74,7 +19,61 @@ public class DateDimensionProviderTests
             new object[] { DateDimensionProvider.FinStartSep, 9 },
             new object[] { DateDimensionProvider.FinStartOct, 10 },
             new object[] { DateDimensionProvider.FinStartNov, 11 },
-            new object[] { DateDimensionProvider.FinStartDec, 12 },
+            new object[] { DateDimensionProvider.FinStartDec, 12 }
         };
-    
+
+    [Fact]
+    public void Test_Constructor()
+    {
+        var sut = new DateDimensionProvider(new DateTime(2019, 01, 01));
+
+        var result = sut.FinStartMonth;
+
+        result.Should().Be(1);
+    }
+
+    [Theory]
+    [MemberData(nameof(FinStartData))]
+    public void Test_FinStart(IDateDimensionProvider sut, int expected)
+    {
+        var result = sut.FinStartMonth;
+
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Test_GetDateDimensions()
+    {
+        var sut = DateDimensionProvider.FinStartMay;
+
+        var list = sut.GetDateDimensions(new DateTime(2019, 01, 01))
+            .Take(365 * 2)
+            .ToList();
+
+        list.Should().NotBeNull();
+        list.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public void Test_GetMonthDimensionFinYear()
+    {
+        var sut = DateDimensionProvider.FinStartJun;
+        var list = sut.GetMonthDimensionFinYear(new DateTime(2023, 02, 28)).ToList();
+        list.Should().NotBeNull();
+        list.Should().NotBeEmpty();
+        list[0].YrMthNo.Value.Should().Be(202206);
+    }
+
+    [Fact]
+    public void Test_GetMonthDimensions()
+    {
+        var sut = DateDimensionProvider.FinStartMay;
+
+        var list = sut.GetMonthDimensions(new DateTime(2019, 01, 01))
+            .Take(24)
+            .ToList();
+
+        list.Should().NotBeNull();
+        list.Should().NotBeEmpty();
+    }
 }
