@@ -23,6 +23,18 @@ public static class DimensionKeyExtensions
     }
 
     /// <summary>
+    ///     Converts Date Dimension key to Datetime
+    /// </summary>
+    /// <param name="value">the Key</param>
+    /// <returns>a DateTime</returns>
+    [Obsolete("Use DimensionKeyExtensions.FromDateDimKey(DateDimKey) instead.")]
+    public static DateTime FromDateDimKey(this long value)
+    {
+        var dimKey = new DateDimKey(value);
+        return dimKey.FromDateDimKey();
+    }
+    
+    /// <summary>
     ///     Converts Month Dimension key to Datetime
     /// </summary>
     /// <param name="value">the Key</param>
@@ -36,6 +48,18 @@ public static class DimensionKeyExtensions
         }
 
         throw new ArgumentException("Invalid Month Dim Key", nameof(value));
+    }
+    
+    /// <summary>
+    ///     Converts Month Dimension key to Datetime
+    /// </summary>
+    /// <param name="value">the Key</param>
+    /// <returns>a DateTime</returns>
+    [Obsolete("Use DimensionKeyExtensions.FromMonthDimKey(MonthDimKey) instead.")]
+    public static DateTime FromMonthDimKey(this long value)
+    {
+        var dimKey = new MonthDimKey(value);
+        return dimKey.FromMonthDimKey();
     }
     
     /// <summary>
