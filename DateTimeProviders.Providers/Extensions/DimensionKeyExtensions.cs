@@ -33,7 +33,7 @@ public static class DimensionKeyExtensions
         var dimKey = new DateDimKey(value);
         return dimKey.FromDateDimKey();
     }
-    
+
     /// <summary>
     ///     Converts Month Dimension key to Datetime
     /// </summary>
@@ -49,7 +49,7 @@ public static class DimensionKeyExtensions
 
         throw new ArgumentException("Invalid Month Dim Key", nameof(value));
     }
-    
+
     /// <summary>
     ///     Converts Month Dimension key to Datetime
     /// </summary>
@@ -61,7 +61,7 @@ public static class DimensionKeyExtensions
         var dimKey = new MonthDimKey(value);
         return dimKey.FromMonthDimKey();
     }
-    
+
     /// <summary>
     ///     Calculates the next Date Dimension key
     /// </summary>
@@ -73,7 +73,7 @@ public static class DimensionKeyExtensions
         dateValue = dateValue.AddDays(1);
         return dateValue.ToDateDimKey();
     }
-    
+
     /// <summary>
     ///     Calculates the next Month Dimension key
     /// </summary>
@@ -85,7 +85,7 @@ public static class DimensionKeyExtensions
         dateValue = dateValue.AddMonths(1);
         return dateValue.ToMonthDimKey();
     }
-    
+
     /// <summary>
     ///     Calculates the previous Date Dimension key
     /// </summary>
@@ -97,7 +97,7 @@ public static class DimensionKeyExtensions
         dateValue = dateValue.AddDays(-1);
         return dateValue.ToDateDimKey();
     }
-    
+
     /// <summary>
     ///     Calculates the previous Month Dimension key
     /// </summary>
@@ -129,6 +129,17 @@ public static class DimensionKeyExtensions
     public static MonthDimKey ToMonthDimKey(this DateTime value)
     {
         var dimValue = value.Year * 100 + value.Month;
+        return new MonthDimKey(dimValue);
+    }
+
+    /// <summary>
+    ///     Convert Date Dimension Key to Month Dimension Key
+    /// </summary>
+    /// <param name="value">the Date Dimension Key</param>
+    /// <returns>a MonthDimKey</returns>
+    public static MonthDimKey ToMonthDimKey(this DateDimKey value)
+    {
+        var dimValue = value.Value / 100;
         return new MonthDimKey(dimValue);
     }
 }

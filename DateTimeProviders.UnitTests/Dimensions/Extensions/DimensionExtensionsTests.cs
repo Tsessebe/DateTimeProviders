@@ -262,7 +262,7 @@ public class DimensionExtensionsTests
 
         result.Should().Be(testDate);
     }
-    
+
     [Fact]
     public void Test_FromDateDimKey_Long()
     {
@@ -272,7 +272,7 @@ public class DimensionExtensionsTests
 
         result.Should().Be(testDate);
     }
-    
+
     [Fact]
     public void Test_FromMonthDimKey()
     {
@@ -285,20 +285,20 @@ public class DimensionExtensionsTests
         // Assert
         result.Should().Be(expected);
     }
-    
+
     [Fact]
     public void Test_FromMonthDimKey_Long()
     {
         // Arrange
         var expected = new DateTime(2019, 05, 01, 00, 00, 00);
-        
+
         // Act
         var result = 201905L.FromMonthDimKey();
 
         // Assert
         result.Should().Be(expected);
     }
-    
+
     [Theory]
     [MemberData(nameof(GetDateDimensionData))]
     public void Test_GetDateDimension(DateTime testDate, DateTime finStartDate, DateDimension expected)
@@ -487,6 +487,18 @@ public class DimensionExtensionsTests
         var testDate = new DateTime(2019, 05, 04, 00, 00, 00);
         // Act
         var result = testDate.ToMonthDimKey();
+        // Assert
+        result.Value.Should().Be(201905);
+    }
+
+    [Fact]
+    public void Test_ToMonthDimKey_FromDateDimKey()
+    {
+        // Arrange
+        var testDate = new DateTime(2019, 05, 04, 00, 00, 00);
+        var dateDimKey = testDate.ToDateDimKey();
+        // Act
+        var result = dateDimKey.ToMonthDimKey();
         // Assert
         result.Value.Should().Be(201905);
     }

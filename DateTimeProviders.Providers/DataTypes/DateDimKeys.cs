@@ -2,9 +2,8 @@
 
 namespace DateTimeProviders.Providers.DataTypes;
 
-
 /// <summary>
-/// Strongly typed Date Dimension Key
+///     Strongly typed Date Dimension Key
 /// </summary>
 /// <param name="Value">the long value</param>
 public readonly record struct DateDimKey(long Value)
@@ -22,7 +21,7 @@ public readonly record struct DateDimKey(long Value)
 }
 
 /// <summary>
-/// Strongly typed Month Dimension Key
+///     Strongly typed Month Dimension Key
 /// </summary>
 /// <param name="Value">the long value</param>
 public readonly record struct MonthDimKey(long Value)
