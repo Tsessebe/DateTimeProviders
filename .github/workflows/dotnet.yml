@@ -37,8 +37,6 @@ jobs:
 
       - name: Setup NuGet
         uses: nuget/setup-nuget@v2
-
-      - run: nuget search nuget
       
       - name: Restore dependencies
         run: dotnet restore $SOLUTION
