@@ -36,8 +36,10 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.2.0
+        uses: nuget/setup-nuget@v2
 
+      - run: nuget search nuget
+      
       - name: Restore dependencies
         run: dotnet restore $SOLUTION
 
