@@ -1,4 +1,5 @@
 ﻿using DateTimeProviders.Providers;
+using DateTimeProviders.Providers.Enums;
 
 namespace DateTimeProviders.UnitTests.Providers;
 
@@ -75,5 +76,73 @@ public class DateDimensionProviderTests
 
         list.Should().NotBeNull();
         list.Should().NotBeEmpty();
+    }
+    
+    [Fact]
+    public void Test_GetMonthDimensionFinYear_From_Year()
+    {
+        var sut = DateDimensionProvider.FinStartMar;
+
+        var list = sut.GetMonthDimensionFinYear(2024)
+            .ToList();
+
+        list.Should().NotBeNull();
+        list.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public void Test_GetFinancialYear()
+    {
+        var sut = DateDimensionProvider.FinStartMar;
+        
+        var result = sut.GetFinancialYear(new DateTime(2025, 02, 01));
+
+        result.Should().NotBeNull();
+        result.FinStartMonth.Should().Be(3);
+        result.StartYear.Should().Be(2024);
+        result.EndYear.Should().Be(2025);
+    }
+
+    [Fact]
+    public void Test_GetFinancialYear_From_Year()
+    {
+        var sut = DateDimensionProvider.FinStartMar;
+        
+        var result = sut.GetFinancialYear(2024);
+
+        result.Should().NotBeNull();
+        result.FinStartMonth.Should().Be(3);
+        result.StartYear.Should().Be(2024);
+        result.EndYear.Should().Be(2025);
+    }
+
+    [Fact]
+    public void Test_GetFinancialYears_Previous()
+    {
+        var sut = DateDimensionProvider.FinStartMar;
+        
+        var result = sut.GetFinancialYears(2024, 5).ToList();
+        result.Should().NotBeNull();
+        result.Should().NotBeEmpty();
+        result.Should().HaveCount(5);
+        var firstYear = result.First();
+        firstYear.StartYear.Should().Be(2019);
+        var lastYear = result.Last();
+        lastYear.EndYear.Should().Be(2024);
+    }
+    
+    [Fact]
+    public void Test_GetFinancialYears_Next()
+    {
+        var sut = DateDimensionProvider.FinStartMar;
+        
+        var result = sut.GetFinancialYears(2024, 5, GetTypes.Next).ToList();
+        result.Should().NotBeNull();
+        result.Should().NotBeEmpty();
+        result.Should().HaveCount(5);
+        var firstYear = result.First();
+        firstYear.StartYear.Should().Be(2024);
+        var lastYear = result.Last();
+        lastYear.EndYear.Should().Be(2029);
     }
 }

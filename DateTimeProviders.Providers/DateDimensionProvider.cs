@@ -1,5 +1,7 @@
 ﻿using DateTimeProviders.Dimensions.Models;
 using DateTimeProviders.Providers.Contracts;
+using DateTimeProviders.Providers.DataTypes;
+using DateTimeProviders.Providers.Enums;
 using DateTimeProviders.Providers.Extensions;
 
 namespace DateTimeProviders.Providers;
@@ -122,6 +124,25 @@ public class DateDimensionProvider : IDateDimensionProvider
     }
 
     /// <inheritdoc />
+    public IEnumerable<MonthDimension> GetMonthDimensionFinYear(int startYear)
+    {
+        var monthDimKey = new MonthDimKey(startYear * 100 + FinStartMonth);
+        var startDate = monthDimKey.FromMonthDimKey();
+        
+        var dateDim = startDate.GetMonthDimension(FinStartMonth);
+        var adjustMonths = dateDim.FinMthNo * -1 + 1;
+        var finStartDate = startDate.AddMonths(adjustMonths);
+
+        var nextValue = finStartDate.AddMonths(-1);
+        for (var i = 0; i < 12; i++)
+        {
+            nextValue = nextValue.AddMonths(1);
+
+            yield return nextValue.GetMonthDimension(FinStartMonth);
+        }
+    }
+    
+    /// <inheritdoc />
     public IEnumerable<MonthDimension> GetMonthDimensions(DateTime startDate)
     {
         var nextValue = startDate.AddMonths(-1);
@@ -138,5 +159,44 @@ public class DateDimensionProvider : IDateDimensionProvider
 
             yield return nextValue.GetMonthDimension(FinStartMonth);
         }
+    }
+
+    /// <inheritdoc />
+    public FinancialYear GetFinancialYear(DateTime startDate)
+    {
+        var months = GetMonthDimensionFinYear(startDate).ToList();
+        var result = new FinancialYear(FinStartMonth)
+        {
+            Months = months,
+        };
+        return result;
+    }
+
+    /// <inheritdoc />
+    public FinancialYear GetFinancialYear(int startYear)
+    {
+        var months = GetMonthDimensionFinYear(startYear).ToList();
+        var result = new FinancialYear(FinStartMonth)
+        {
+            Months = months,
+        };
+        return result;
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<FinancialYear> GetFinancialYears(int yearNo, int count, GetTypes getType = GetTypes.Previous)
+    {
+        var result = new List<FinancialYear>();
+        
+        var startYear = getType == GetTypes.Previous ? yearNo - count : yearNo;
+        var endYear = getType == GetTypes.Previous ? yearNo : yearNo + count;
+
+        for (var i = startYear; i < endYear; i++)
+        {
+            var financialYear = GetFinancialYear(i);
+            result.Add(financialYear);
+        }
+        
+        return result;
     }
 }
