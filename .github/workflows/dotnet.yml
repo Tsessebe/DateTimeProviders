@@ -36,7 +36,9 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: nuget/setup-nuget@v2
+        with: 
+          nuget-api-key: ${{secrets.NUGET_API_KEY}}
 
       - name: Restore dependencies
         run: dotnet restore $SOLUTION
