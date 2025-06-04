@@ -1,10 +1,12 @@
-﻿using DateTimeProviders.Providers.DataTypes;
+﻿using System.Diagnostics;
+using DateTimeProviders.Providers.DataTypes;
 
 namespace DateTimeProviders.Dimensions.Models;
 
 /// <summary>
 ///     Month Dimension Class
 /// </summary>
+[DebuggerDisplay("{MthShortDesc}")]
 public class MonthDimension
 {
     /// <summary>

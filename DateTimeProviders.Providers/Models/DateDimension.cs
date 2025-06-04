@@ -1,10 +1,12 @@
-﻿using DateTimeProviders.Providers.DataTypes;
+﻿using System.Diagnostics;
+using DateTimeProviders.Providers.DataTypes;
 
 namespace DateTimeProviders.Dimensions.Models;
 
 /// <summary>
 ///     Date dimension class
 /// </summary>
+[DebuggerDisplay("{ShortDateVal}")]
 public class DateDimension
 {
     /// <summary>
