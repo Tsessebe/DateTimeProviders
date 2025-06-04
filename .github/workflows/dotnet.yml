@@ -46,4 +46,4 @@ jobs:
 
       - name: Publish
         if: startsWith(github.ref, 'refs/heads/release')
-        run: dotnet nuget push **\*.nupkg --source "GPR" --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+        run: dotnet nuget push **\*.nupkg --source 'https://api.nuget.org/v3/index.json' --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
