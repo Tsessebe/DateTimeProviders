@@ -6,7 +6,7 @@ namespace DateTimeProviders.Dimensions.Models;
 /// <summary>
 ///     Month Dimension Class
 /// </summary>
-[DebuggerDisplay("{MthShortDesc}")]
+[DebuggerDisplay("{MthYearShortDesc}")]
 public class MonthDimension
 {
     /// <summary>
@@ -30,7 +30,7 @@ public class MonthDimension
     public int FinYrNo { get; set; }
 
     /// <summary>
-    ///     Gets or sets the Month Long Description
+    ///     Gets or sets the Month-Long Description
     /// </summary>
     public string MthLongDesc { get; set; } = string.Empty;
 

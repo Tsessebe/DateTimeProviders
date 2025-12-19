@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace DateTimeProviders.Providers.Extensions;
 
@@ -164,7 +165,7 @@ public static class DateTimeExtensions
     /// <returns>a Boolean</returns>
     public static bool IsLeapDay(this DateTime date)
     {
-        return date.Month == 2 && date.Day == 29;
+        return date is { Month: 2, Day: 29 };
     }
 
     /// <summary>
@@ -178,7 +179,7 @@ public static class DateTimeExtensions
     public static bool IsWorkDay(this DateTime date, bool workdayDefault = true,
         Dictionary<DayOfWeek, bool>? workdays = null, IEnumerable<DateTime>? holidays = null)
     {
-        var result = false;
+        bool result = false;
 
         if (!workdays?.TryGetValue(date.DayOfWeek, out result) ?? true)
         {
@@ -265,5 +266,69 @@ public static class DateTimeExtensions
     public static DateTime StartOfTheMonth(this DateTime date)
     {
         return new DateTime(date.Year, date.Month, 1);
+    }
+    
+    /// <summary>
+    /// Calculating the number of WorkDays between two dates.
+    /// </summary>
+    /// <param name="startDate">the Start Date</param>
+    /// <param name="endDate">the End Date</param>
+    /// <param name="workdays">the Work days</param>
+    /// <param name="holidays">the Public Holidays</param>
+    /// <returns>the Number of work days between the dates</returns>
+    public static int WorkDays(this DateTime startDate, DateTime endDate,
+        Dictionary<DayOfWeek, bool> workdays,
+        IEnumerable<DateTime>? holidays = null)
+    {
+        var result = 0;
+        List<DateTime>? holidayList = null;
+        if (holidays != null)
+        {
+            holidayList = holidays.Select(h => h.Date).ToList();
+        }
+
+        var dateList = EachCalendarDay(startDate, endDate).ToList();
+        var workingDays = dateList
+            .Select(d => new WorkDayInfo
+            {
+                Date = d,
+                IsHoliday = holidayList != null && holidayList.Contains(d),
+            })
+            .ToList();
+
+        foreach (var day in workingDays)
+        {
+            var isWorkDay = workdays.GetValueOrDefault(day.DayOfWeek, true);
+            day.IsDayOff = !isWorkDay;
+        }
+
+        result += workingDays.Count(x => x.IsWorkingDay);
+        return result;
+    }
+
+    /// <summary>
+    /// Generates each calendar day between two dates.
+    /// </summary>
+    /// <param name="startDate">the Start Date</param>
+    /// <param name="endDate">the End Date</param>
+    /// <returns></returns>
+    public static IEnumerable<DateTime> EachCalendarDay(DateTime startDate, DateTime endDate)
+    {
+        var date = startDate.Date;
+        while (date <= endDate.Date)
+        {
+            yield return date;
+            date = date.AddDays(1);
+        }
+    }
+    
+    [DebuggerDisplay("{Date.ToShortDateString()} Weekday: {DayOfWeek} - Holiday: {IsHoliday} - DayOff: {IsDayOff} - WorkingDay: {IsWorkingDay}")]
+    private class WorkDayInfo
+    {
+        public DateTime Date { get; init; }
+        public bool IsHoliday { get; init; }
+        public bool IsDayOff { get; set; }
+        public DayOfWeek DayOfWeek => Date.DayOfWeek;
+        public bool IsWorkingDay => !IsHoliday && !IsDayOff;
     }
 }

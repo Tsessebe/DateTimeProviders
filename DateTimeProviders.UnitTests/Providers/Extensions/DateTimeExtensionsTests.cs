@@ -1,4 +1,5 @@
 ﻿using DateTimeProviders.Providers.Extensions;
+using DateTimeProviders.Providers.Models;
 
 namespace DateTimeProviders.UnitTests.Providers.Extensions;
 
@@ -265,6 +266,33 @@ public class DateTimeExtensionsTests
             new object[] { DayOfWeek.Saturday, new DateTime(2019, 03, 16, 00, 00, 00) }
         };
 
+    public static IEnumerable<Holiday> PublicHolidaysZa2025 =>
+        new List<Holiday>
+        {
+            new Holiday() { Date = new DateTime(2025, 01, 01), Name = "New Year's Day" },
+            new Holiday() { Date = new DateTime(2025, 03, 21), Name = "Human Rights Day" },
+            new Holiday() { Date = new DateTime(2025, 04, 18), Name = "Good Friday" },
+            new Holiday() { Date = new DateTime(2025, 04, 21), Name = "Family Day" },
+            new Holiday() { Date = new DateTime(2025, 05, 01), Name = "Workers' Day" },
+            new Holiday() { Date = new DateTime(2025, 06, 16), Name = "Youth Day" },
+            new Holiday() { Date = new DateTime(2025, 08, 09), Name = "National Woman's Day" },
+            new Holiday() { Date = new DateTime(2025, 09, 24), Name = "Heritage Day" },
+            new Holiday() { Date = new DateTime(2025, 12, 16), Name = "Day of Reconciliation" },
+            new Holiday() { Date = new DateTime(2025, 12, 25), Name = "Christmas Day" },
+            new Holiday() { Date = new DateTime(2025, 12, 26), Name = "Day of Goodwill" },
+        };
+    
+    public static Dictionary<DayOfWeek, bool> WorkingDays => new Dictionary<DayOfWeek, bool>
+    {
+        { DayOfWeek.Sunday, false },
+        { DayOfWeek.Monday, true },
+        { DayOfWeek.Tuesday, true },
+        { DayOfWeek.Wednesday, true },
+        { DayOfWeek.Thursday, true },
+        { DayOfWeek.Friday, true },
+        { DayOfWeek.Saturday, false }
+    };
+    
     [Theory]
     [MemberData(nameof(EasterSundayData))]
     public void Test_EasterSunday_Date(DateTimeOffset now, DateTime expected)
@@ -569,5 +597,53 @@ public class DateTimeExtensionsTests
 
         // Assert
         result.Should().Be(dateTimeProvider.StartOfTheMonth.Date);
+    }
+    
+    [Fact]
+    public void Test_WorkDays_Between_Dates()
+    {
+        // Arrange
+        var startDate = new DateTime(2025,02,25).StartOfDay();
+        var endDate = new DateTime(2025,03,24).EndOfDay();
+        
+        var holidays = PublicHolidaysZa2025.Select(h => h.Date).ToList();
+        
+        // Act
+        var result = startDate.WorkDays(endDate,WorkingDays, holidays);
+
+        // Assert
+        result.Should().Be(19);
+    }
+    
+    [Fact]
+    public void Test_WorkDays_Between_25Apr_24May()
+    {
+        // Arrange
+        var startDate = new DateTime(2025,04,25).StartOfDay();
+        var endDate = new DateTime(2025,05,24).EndOfDay();
+        
+        var holidays = PublicHolidaysZa2025.Select(h => h.Date).ToList();
+        
+        // Act
+        var result = startDate.WorkDays(endDate,WorkingDays, holidays);
+
+        // Assert
+        result.Should().Be(20);
+    }
+    
+    [Fact]
+    public void Test_WorkDays_Between_25Aug_24Sep()
+    {
+        // Arrange
+        var startDate = new DateTime(2025,08,25).StartOfDay();
+        var endDate = new DateTime(2025,09,24).EndOfDay();
+        
+        var holidays = PublicHolidaysZa2025.Select(h => h.Date).ToList();
+        
+        // Act
+        var result = startDate.WorkDays(endDate,WorkingDays, holidays);
+
+        // Assert
+        result.Should().Be(22);
     }
 }
